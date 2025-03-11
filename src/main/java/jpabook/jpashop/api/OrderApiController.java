@@ -64,6 +64,7 @@ public class OrderApiController {
         private OrderStatus orderStatus;
         private Address address;
         private List<OrderItemDto> orderItems;
+
         public OrderDto(Order order) {
             orderId = order.getId();
             name = order.getMember().getName();
@@ -75,11 +76,13 @@ public class OrderApiController {
                     .collect(toList());
         }
     }
+
     @Data
     static class OrderItemDto {
         private String itemName;//상품 명
         private int orderPrice; //주문 가격
         private int count; //주문 수량
+
         public OrderItemDto(OrderItem orderItem) {
             itemName = orderItem.getItem().getName();
             orderPrice = orderItem.getOrderPrice();
@@ -106,5 +109,10 @@ public class OrderApiController {
     @GetMapping("/api/v4/orders")
     public List<OrderQueryDto> ordersV4() {
         return orderQueryRepository.findOrderQueryDtos();
+    }
+
+    @GetMapping("/api/v5/orders")
+    public List<OrderQueryDto> ordersV5() {
+        return orderQueryRepository.findAllByDto_optimization();
     }
 }
